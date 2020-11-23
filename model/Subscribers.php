@@ -36,6 +36,26 @@ class Subscribers
     return $entity;
   }
   
+  public static function findByLoginAndDate($login, $dt) {
+    $data = Db::getAll("SELECT * FROM `".self::TABLE."` WHERE (phone = ? OR email = ?) AND payment_date = ?", [$login, $login, $dt]);
+    $result = [];
+    foreach ($data as $row) {
+      $entity = new self();
+      $entity->id = $row->id;
+      $entity->phone = $row->phone;
+      $entity->email = $row->email;
+      $entity->price = $row->price;
+      $entity->payment_method_id = $row->payment_method_id;
+      $entity->payment_date = $row->payment_date;
+      $entity->status = $row->status;
+      $entity->dt = $row->dt;
+  
+      $result[] = $entity;
+    }
+
+    return $result;
+  }
+  
   public function save() {
     if ($this->id) {
       Db::update(self::TABLE, $this->dataForSave());
