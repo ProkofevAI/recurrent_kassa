@@ -3,10 +3,10 @@ require_once "autoload.php";
 
 use Recurrent\Model\Subscribers;
 
-$subscribers = Subscribers::findByLoginAndDate($_POST['login'], $_POST['date']);
+$subscribers = Subscribers::findByEmailAndDate($_POST['email'], $_POST['date']);
 
 if (count($subscribers) == 0 || count($subscribers) > 1) {
-  echo 'Не удалось найти. Пожалуйста, напишите на test@mail.ru';
+  echo 'Не удалось найти. Пожалуйста, напишите нам';
   die();
 }
 

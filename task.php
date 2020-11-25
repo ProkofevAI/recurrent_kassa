@@ -21,7 +21,7 @@ function checkPayments() {
       
       $subscriber = Subscribers::getById($payment->subscriber_id);
       
-      if ($subscriber->status == Subscribers::statuses['wait']) {
+      if ($subscriber && $subscriber->status == Subscribers::statuses['wait']) {
         $subscriber->status = Subscribers::statuses['active'];
         $subscriber->payment_method_id = $kassa_payment['payment_method']['id'];
         $subscriber->save();

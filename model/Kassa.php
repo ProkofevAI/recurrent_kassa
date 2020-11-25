@@ -28,11 +28,12 @@ class Kassa
     if ($save_payment_method) {
       $query['save_payment_method'] = true;
       $query['payment_method_data'] = ['type' => 'bank_card'];
-      $query['confirmation'] = ['type' => 'redirect', 'return_url' => $return_url ? $return_url : 'https://vonmi.org'];
     }
     
     if ($payment_method_id) {
       $query['payment_method_id'] = $payment_method_id;
+    } else {
+      $query['confirmation'] = ['type' => 'redirect', 'return_url' => $return_url ? $return_url : 'https://vonmi.org'];
     }
   
     return $this->client->createPayment($query, $uniq);

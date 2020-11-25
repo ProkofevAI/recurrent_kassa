@@ -1,17 +1,63 @@
-<form id="kassa" style="margin: 20px; padding: 20px; border: 1px solid #ccc">
-  <h1>Ежемесячные пожертвования</h1>
-  <label>Email: <input name="email" /></label> <br>
-  <label>Телефон: <input name="phone" /></label> <br>
-  <label>Сумма: <input name="price" type="number" /></label> <br>
-  <button type="submit">Отправить</button>
-</form>
 
-<form id="unsubscribe" style="margin: 20px; padding: 20px; border: 1px solid #ccc">
-  <h1>Отписаться от пожертвований</h1>
-  <label>Email или телефон: <input name="login" /></label> <br>
-  <label>Дата пожертвования: <input name="date" /></label> <br>
-  <button type="submit">Отписаться</button>
+<link rel="stylesheet" type="text/css" href="/style.css">
+
+<div class="donation">
+  
+
+<form id="kassa">
+  <div class="tags" style="margin-bottom: 10px;">
+    <input type="radio" name="type" id="type1" value=1 checked> <label for="type1">ЕЖЕМЕСЯЧНО</label>
+    <input type="radio" name="type" id="type2" value=0> <label for="type2">РАЗОВО</label>
+  </div>
+  
+  <div class="tags">
+    <input type="radio" name="rb" id="rb1" onchange="setPrice(150)"> <label for="rb1">150 руб.</label>
+    <input type="radio" name="rb" id="rb2" onchange="setPrice(200)"> <label for="rb2">200 руб.</label>
+    <input type="radio" name="rb" id="rb3" onchange="setPrice(300)"> <label for="rb3">300 руб.</label>
+    <input type="radio" name="rb" id="rb4" onchange="setPrice(500)" checked> <label for="rb4">500 руб.</label>
+  </div>
+  
+  <div class="tags" style="margin-bottom: 30px;">
+    <input type="radio" name="rb" id="rb5" onchange="setPrice(1000)"> <label for="rb5">1000 руб.</label>
+    <input type="radio" name="rb" id="rb6" onchange="setPrice(2000)"> <label for="rb6">2000 руб.</label>
+    <input type="radio" name="rb" id="rb7" style="display: none">
+    <input name="price" placeholder="Другая сумма" class="price-input" onkeyup="onpricechange()">
+  </div>
+  
+  <div class="text-data">
+    <label>Имя</label><input name="name" />
+  </div>
+  
+  <div class="text-data">
+    <label>Email</label><input name="email" />
+  </div>
+  
+  <input name="price" id="price" style="display: none" value="500"/>
+  
+  <div id="message"></div>
+  <div style="display: flex;">
+    <button type="submit" class="submit">ПОЖЕРТВОВАТЬ</button> <div id="finalPrice">500 руб.</div>
+  </div>
 </form>
+  
+  
+
+  
+  <form id="unsubscribe-form">
+    <b>Передумали?</b>
+    <p style="margin-top: 5px;">Чтобы отменить регулярные списания, заполните форму ниже или напишите нам</p>
+    
+    <div class="text-data">
+      <label>Email</label><input name="email" />
+    </div>
+  
+    <div class="text-data">
+      <label>Дата пожертвования</label><input name="date" />
+    </div>
+  
+    <button type="submit" class="unsubscribe">ОТМЕНИТЬ</button>
+</form>
+</div>
 
 
 <script type="text/javascript">
@@ -19,25 +65,54 @@
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
       if (request.readyState == 4 && request.status == 200) {
-        setTimeout(function(){document.location.href = request.response; }, 0);
+
+        var response = JSON.parse(request.response);
+        if (response.redirect) {
+          setTimeout(function () {
+            document.location.href = response.redirect;
+          }, 0);
+        }
+
+        if (response.message) {
+          document.querySelector('#message').innerHTML = response.message;
+        }
       }
     }
+    
     request.open("POST","/payment.php",true);
     var formData = new FormData(this);
     request.send(formData);
     return false;
   }
+  
 
-  document.getElementById('unsubscribe').onsubmit = function() {
+  document.getElementById('unsubscribe-form').onsubmit = function() {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function() {
       if (request.readyState == 4 && request.status == 200) {
-        console.log(request.response);
+        document.getElementById('unsubscribe-form').innerHTML = request.response;
       }
     }
     request.open("POST","/unsubscribe.php",true);
     var formData = new FormData(this);
     request.send(formData);
     return false;
+  }
+
+
+  function onpricechange() {
+    document.querySelector('#rb7').checked = true;
+    var price = parseInt(document.querySelector('.price-input').value.replace(/[^+\d]/g, ''));
+    if (!price || price < 0) price = '';
+    
+    if (price > 30000) price = 30000;
+    
+    document.querySelector('.price-input').value = price.toLocaleString('ru');
+    setPrice(price);
+  }
+  
+  function setPrice(price) {
+    document.querySelector('#price').value = price;
+    document.querySelector('#finalPrice').innerHTML = price.toLocaleString('ru') + ' руб.';
   }
 </script>

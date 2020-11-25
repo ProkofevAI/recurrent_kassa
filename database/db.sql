@@ -44,7 +44,7 @@ CREATE TABLE `payments` (
 
 CREATE TABLE `subscribers` (
   `id` int(11) NOT NULL,
-  `phone` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `price` int(11) NOT NULL,
   `payment_method_id` varchar(255) NOT NULL,

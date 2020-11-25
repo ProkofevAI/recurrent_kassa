@@ -1,0 +1,114 @@
+.donation {
+    font-family: Arial;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin: 20px;
+    max-width: 360px;
+}
+
+.tags {
+    display: flex;
+    max-width: 360px;
+}
+
+.price-input {
+    width: 163px;
+    padding: 0 26px;
+    border: 1px solid #e8e8e8;
+}
+
+input[type="radio"]:checked,
+input[type="radio"]:not(:checked)
+{
+    position: absolute;
+    left: -9999px;
+}
+
+input[type="radio"]:checked + label,
+input[type="radio"]:not(:checked) + label {
+    flex-grow: 1;
+    padding: 15px 0;
+    text-align: center;
+    display: block;
+    cursor: pointer;
+    font-size: 15px;
+    color: #010101;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    margin: 0;
+    outline: 0;
+}
+
+input[type="radio"]:checked + label {
+    background: #549eef;
+    border-color: #549eef;
+    color: #fff;
+}
+
+.submit:hover,
+.unsubscribe:hover {
+    opacity: .85;
+}
+.unsubscribe {
+    cursor: pointer;
+    border: 0;
+    border-radius: 3px;
+    background: #ab5757;
+    color: #fff;
+    padding: 7px 15px;
+    font-weight: bold;
+    letter-spacing: 0.5;
+    margin-top: 12px;
+}
+
+.submit {
+    cursor: pointer;
+    border: 0;
+    border-radius: 3px;
+    background: #66b73e;
+    color: #fff;
+    padding: 15px 22px;
+    font-weight: bold;
+    letter-spacing: 0.7;
+}
+
+.text-data {
+    position: relative;
+    margin-top: 20px;
+}
+
+.text-data label {
+    position: absolute;
+    background: #fff; 
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: bold;
+    left: 10px;
+    top: -7px;
+}
+
+.text-data input {
+    padding: 15px;
+    border: 1px solid #cfcfcf;
+    max-width: 360px;
+    width: 100%;
+}
+
+#finalPrice {
+    padding: 13px;
+    color: #66b73e;
+    font-weight: bold;
+}
+
+#message {
+    font-size: 14px;
+    color: #e62121;
+    height: 20px;
+    margin-top: 30px;
+}
+
+#unsubscribe-form {
+    border-top: 1px solid #ccc;
+    margin-top: 25px;
+    padding-top: 25px;
+}
